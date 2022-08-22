@@ -20,7 +20,7 @@ import brown19 from './brown19.png';
 import brown20 from './brown20.png';
 import brown21 from './brown21.png';
 
-const cards = {
+const brownCardsAssets = {
   brown1,
   brown2,
   brown3,
@@ -44,4 +44,4 @@ const cards = {
   brown21,
 }
 
-export default cards
+export default brownCardsAssets

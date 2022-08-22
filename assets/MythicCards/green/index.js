@@ -17,7 +17,7 @@ import green16 from './green16.png';
 import green17 from './green17.png';
 import green18 from './green18.png';
 
-const cards = {
+const greenCardsAssets = {
   green1,
   green2,
   green3,
@@ -38,4 +38,4 @@ const cards = {
   green18,
 };
 
-export default cards;
+export default greenCardsAssets;
