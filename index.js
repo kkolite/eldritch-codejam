@@ -8,6 +8,8 @@ const cardContainer = document.querySelector('.card-container');
 const cardSuit = document.querySelector('.card-suit');
 const card = document.querySelector('.card');
 const newGame = document.querySelector('.new-game');
+const bossDescription = document.querySelector('.boss-description');
+const bigDescription = document.querySelector('.big-description');
 
 const greenCardsData = [
     {
@@ -366,7 +368,7 @@ const bossData = [
     {
       id: 'Cthulhu',
       name: 'cthulhu',
-      cardFace: 'assets/Ancient/Cthulhu.png',
+      cardFace: 'assets/Ancient/Cthulthu.png',
       firstStage: {
         greenCards: 0,
         blueCards: 2,
@@ -452,6 +454,12 @@ function chooseBoss (e) {
     })
     target.classList.add('active-item');
     config.boss = target.textContent;
+
+    bossData.forEach(el => {
+      if (el.id == config.boss) {
+        bossDescription.src = el.cardFace;
+      }
+    })
 }
 
 function chooseDifficulty(e) {
@@ -746,6 +754,7 @@ function startNewGame(){
   cardContainer.classList.add('after-setting');
   setting.classList.remove('after-setting');
   card.src = '';
+  bossDescription.src = '';
   greenCards = greenCardsData;
   blueCards = blueCardsData;
   brownCards = brownCardsData;
@@ -771,3 +780,10 @@ function startNewGame(){
 }
 
 newGame.addEventListener('click', startNewGame);
+
+function bigBossDescription() {
+  bossDescription.classList.toggle('big-description');
+}
+
+bossDescription.addEventListener('click', bigBossDescription)
+
