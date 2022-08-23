@@ -489,16 +489,170 @@ function gameBoss() {
 }
 
 function gameDifficulty() {
-  if (config.difficulty == 'Normal') {
-          for (let i = 18; i > totalCards.greenCards; i--) {
-        greenCards.splice(Math.floor(Math.random() * i), 1)
+  if (config.difficulty == 'Normal') {}
+  else if (config.difficulty == 'Easy') {
+      let arr = [];
+      greenCards.forEach(el => {
+        if (el.difficulty != 'hard') {
+          arr.push(el);
+        }
+      })
+      greenCards = arr;
+
+      arr = [];
+      brownCards.forEach(el => {
+        if (el.difficulty != 'hard') {
+          arr.push(el);
+        }
+      })
+      brownCards = arr;
+
+      arr = [];
+      blueCards.forEach(el => {
+        if (el.difficulty != 'hard') {
+          arr.push(el);
+        }
+      })
+      blueCards = arr;
+  }
+  else if (config.difficulty == 'Hard') {
+    let arr = [];
+    greenCards.forEach(el => {
+      if (el.difficulty != 'easy') {
+        arr.push(el);
       }
-      for (let i = 12; i > totalCards.blueCards; i--) {
-        blueCards.splice(Math.floor(Math.random() * i), 1)
+    })
+    greenCards = arr;
+
+    arr = [];
+    brownCards.forEach(el => {
+      if (el.difficulty != 'easy') {
+        arr.push(el);
       }
-      for (let i = 21; i > totalCards.brownCards; i--) {
-        brownCards.splice(Math.floor(Math.random() * i), 1)
+    })
+    brownCards = arr;
+
+    arr = [];
+    blueCards.forEach(el => {
+      if (el.difficulty != 'easy') {
+        arr.push(el);
       }
+    })
+    blueCards = arr;
+  }
+  else if (config.difficulty == 'Very Easy') {
+    function veryDifficulty(el) {
+      if (arr.length < el) {
+        sort(arrNormal);
+        arr.push(arrNormal[0]);
+        arrNormal.splice(0, 1);
+        veryDifficulty(el);
+      }
+    }
+
+    let arr = [];
+    let arrNormal = [];
+    greenCards.forEach(el => {
+      if (el.difficulty == 'easy') {
+        arr.push(el);
+      }
+      else if (el.difficulty == 'normal') {
+        arrNormal.push(el);
+      }
+    })
+   
+    veryDifficulty(totalCards.greenCards);
+    greenCards = arr;
+
+    arr = [];
+    arrNormal = [];
+    blueCards.forEach(el => {
+      if (el.difficulty == 'easy') {
+        arr.push(el);
+      }
+      else if (el.difficulty == 'normal') {
+        arrNormal.push(el);
+      }
+    })
+    
+    veryDifficulty(totalCards.blueCards);
+    blueCards = arr;
+
+    arr = [];
+    arrNormal = [];
+    brownCards.forEach(el => {
+      if (el.difficulty == 'easy') {
+        arr.push(el);
+      }
+      else if (el.difficulty == 'normal') {
+        arrNormal.push(el);
+      }
+    })
+    
+    veryDifficulty(totalCards.brownCards);
+    brownCards = arr;
+  }
+  else if (config.difficulty == 'Very Hard') {
+    function veryDifficulty(el) {
+      if (arr.length < el) {
+        sort(arrNormal);
+        arr.push(arrNormal[0]);
+        arrNormal.splice(0, 1);
+        veryDifficulty(el);
+      }
+    }
+
+    let arr = [];
+    let arrNormal = [];
+    greenCards.forEach(el => {
+      if (el.difficulty == 'hard') {
+        arr.push(el);
+      }
+      else if (el.difficulty == 'normal') {
+        arrNormal.push(el);
+      }
+    })
+   
+    veryDifficulty(totalCards.greenCards);
+    greenCards = arr;
+
+    arr = [];
+    arrNormal = [];
+    blueCards.forEach(el => {
+      if (el.difficulty == 'hard') {
+        arr.push(el);
+      }
+      else if (el.difficulty == 'normal') {
+        arrNormal.push(el);
+      }
+    })
+    
+    veryDifficulty(totalCards.blueCards);
+    blueCards = arr;
+
+    arr = [];
+    arrNormal = [];
+    brownCards.forEach(el => {
+      if (el.difficulty == 'hard') {
+        arr.push(el);
+      }
+      else if (el.difficulty == 'normal') {
+        arrNormal.push(el);
+      }
+    })
+    
+    veryDifficulty(totalCards.brownCards);
+    brownCards = arr;
+  }
+
+  for (let i = greenCards.length; i > totalCards.greenCards; i--) {
+    greenCards.splice(Math.floor(Math.random() * i), 1)
+  }
+  for (let i = blueCards.length; i > totalCards.blueCards; i--) {
+    blueCards.splice(Math.floor(Math.random() * i), 1)
+  }
+  for (let i = brownCards.length; i > totalCards.brownCards; i--) {
+    brownCards.splice(Math.floor(Math.random() * i), 1)
   }
 }
 
