@@ -3,7 +3,12 @@ const setting = document.querySelector('.setting-back');
 const bossList = document.querySelector('.boss-list');
 const difficultiesList = document.querySelector('.difficulties-list');
 const bosses = document.querySelectorAll('.boss-item');
-const difficulties = document.querySelectorAll('.difficulty-item')
+const difficulties = document.querySelectorAll('.difficulty-item');
+const cardContainer = document.querySelector('.card-container');
+const cardSuit = document.querySelector('.card-suit');
+const card = document.querySelector('.card');
+
+
 
 let greenCardsData = [
     {
@@ -320,9 +325,22 @@ let brownCardsData = [
     },
 ]
 
+let greenCards = greenCardsData;
+let blueCards = blueCardsData;
+let brownCards = brownCardsData;
+let totalCards = {};
+let firstStage = {};
+let secondStage = {};
+let thirdStage = {};
+
+let firstPack = [];
+let secondPack = [];
+let thirdPack = [];
+let pack = [];
+
 const bossData = [
     {
-      id: 'azathoth',
+      id: 'Azathoth',
       name: 'azathoth',
       cardFace: 'assets/Ancient/Azathoth.png',
       firstStage: {
@@ -340,9 +358,14 @@ const bossData = [
         blueCards: 0,
         brownCards: 4,
       },
+      totalCards: {
+        greenCards: 5,
+        blueCards: 2,
+        brownCards: 9,
+      },
     },
     {
-      id: 'cthulhu',
+      id: 'Cthulhu',
       name: 'cthulhu',
       cardFace: 'assets/Ancient/Cthulhu.png',
       firstStage: {
@@ -360,9 +383,14 @@ const bossData = [
         blueCards: 0,
         brownCards: 4,
       },
+      totalCards: {
+        greenCards: 4,
+        blueCards: 2,
+        brownCards: 9,
+      },
     },
     {
-      id: 'iogSothoth',
+      id: 'IogSothoth',
       name: 'iogSothoth',
       cardFace: 'assets/Ancient/IogSothoth.png',
       firstStage: {
@@ -380,9 +408,14 @@ const bossData = [
         blueCards: 0,
         brownCards: 4,
       },
+      totalCards: {
+        greenCards: 5,
+        blueCards: 2,
+        brownCards: 9,
+      },
     },
     {
-      id: 'shubNiggurath',
+      id: 'ShubNiggurath',
       name: 'shubNiggurath',
       cardFace: 'assets/Ancient/ShubNiggurath.png',
       firstStage: {
@@ -400,12 +433,17 @@ const bossData = [
         blueCards: 0,
         brownCards: 4,
       },
+      totalCards: {
+        greenCards: 6,
+        blueCards: 2,
+        brownCards: 8,
+      },
     },
 ]
   
 let config = {
-    boss: '',
-    difficulty: '',
+    boss: 'Azathoth',
+    difficulty: 'Normal',
 }
 
 function chooseBoss (e) {
@@ -431,7 +469,109 @@ bossList.addEventListener('click', chooseBoss)
 
 function startGame() {
     setting.classList.add('after-setting');
-    console.log(config)
+    cardContainer.classList.remove('after-setting');
+    gameBoss();
+    gameDifficulty();
+    makePack();
+    console.log(config);
+    console.log(pack);
+}
+
+function gameBoss() {
+  bossData.forEach(el => {
+    if (el.id == config.boss) {
+      totalCards = el.totalCards;
+      firstStage = el.firstStage;
+      secondStage = el.secondStage;
+      thirdStage = el.thirdStage;
+    }
+  })
+}
+
+function gameDifficulty() {
+  if (config.difficulty == 'Normal') {
+          for (let i = 18; i > totalCards.greenCards; i--) {
+        greenCards.splice(Math.floor(Math.random() * i), 1)
+      }
+      for (let i = 12; i > totalCards.blueCards; i--) {
+        blueCards.splice(Math.floor(Math.random() * i), 1)
+      }
+      for (let i = 21; i > totalCards.brownCards; i--) {
+        brownCards.splice(Math.floor(Math.random() * i), 1)
+      }
+  }
+}
+
+function makePack() {
+  firstPack = [];
+  secondPack = [];
+  thirdPack = [];
+  pack = [];
+  
+  packBuilderGreen(firstStage, firstPack);
+  packBuilderBrown(firstStage, firstPack);
+  packBuilderBlue(firstStage, firstPack);
+
+  packBuilderGreen(secondStage, secondPack);
+  packBuilderBrown(secondStage, secondPack);
+  packBuilderBlue(secondStage, secondPack);
+
+  packBuilderGreen(thirdStage, thirdPack);
+  packBuilderBrown(thirdStage, thirdPack);
+  packBuilderBlue(thirdStage, thirdPack);
+
+  sort(firstPack);
+  sort(secondPack);
+  sort(thirdPack);
+
+  pack.push(thirdPack);
+  pack.push(secondPack);
+  pack.push(firstPack);
+  pack = pack.flat(1);
+}
+
+function packBuilderGreen(stage, pack) {
+  for (let i = 0; i < stage.greenCards; i++) {
+    let n = Math.floor(Math.random() * greenCards.length);
+    pack.push(greenCards[n]);
+    greenCards.splice(n, 1);
+  }
+}
+
+function packBuilderBrown(stage, pack) {
+  for (let i = 0; i < stage.brownCards; i++) {
+    let n = Math.floor(Math.random() * brownCards.length);
+    pack.push(brownCards[n]);
+    brownCards.splice(n, 1);
+  }
+}
+
+function packBuilderBlue(stage, pack) {
+  for (let i = 0; i < stage.blueCards; i++) {
+    let n = Math.floor(Math.random() * blueCards.length);
+    pack.push(blueCards[n]);
+    blueCards.splice(n, 1);
+  }
+}
+
+function sort(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let k = Math.floor(Math.random() * (i + 1));
+    [array[i], array[k]] = [array[k], array[i]];
+  }
 }
 
 settingButton.addEventListener('click', startGame);
+
+function changeCard() {
+  if (pack.length > 1) {
+    card.src = `${pack[0].cardFace}`;
+    pack.splice(0, 1);
+  }
+  else {
+    card.src = `${pack[0].cardFace}`;
+    cardSuit.classList.add('after-setting');
+  }
+}
+
+cardSuit.addEventListener('click', changeCard)

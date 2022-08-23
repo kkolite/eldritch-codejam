@@ -49,8 +49,18 @@ body {
     color: aliceblue;
 }
 
-.setting-bottom {
+.setting-button {
+    background-color: red;
+    width: 100px;
+    height: 40px;
+    font-size: 25px;
+    color: aliceblue;
+    border-radius: 10px;
+}
 
+.setting-button:hover {
+    opacity: .8;
+    cursor: pointer;
 }
 
 .boss-list {
@@ -78,4 +88,15 @@ body {
 
 .item:hover {
     opacity: 0.8;
+}
+
+.card-container {
+    position: absolute;
+    display: flex;
+    margin: 0 auto;
+    top: 0;
+}
+
+.card {
+    left: 20px;
 }
