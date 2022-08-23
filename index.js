@@ -7,10 +7,9 @@ const difficulties = document.querySelectorAll('.difficulty-item');
 const cardContainer = document.querySelector('.card-container');
 const cardSuit = document.querySelector('.card-suit');
 const card = document.querySelector('.card');
+const newGame = document.querySelector('.new-game');
 
-
-
-let greenCardsData = [
+const greenCardsData = [
     {
       id: 'green1',
       cardFace: 'assets/MythicCards/green/green1.png',
@@ -121,7 +120,7 @@ let greenCardsData = [
     },
 ]
 
-let blueCardsData = [
+const blueCardsData = [
     {
       id: 'blue1',
       cardFace: 'assets/MythicCards/blue/blue1.png',
@@ -196,7 +195,7 @@ let blueCardsData = [
     },
 ]
 
-let brownCardsData = [
+const brownCardsData = [
     {
       id: 'brown1',
       cardFace: 'assets/MythicCards/brown/brown1.png',
@@ -489,8 +488,7 @@ function gameBoss() {
 }
 
 function gameDifficulty() {
-  if (config.difficulty == 'Normal') {}
-  else if (config.difficulty == 'Easy') {
+  if (config.difficulty == 'Easy') {
       let arr = [];
       greenCards.forEach(el => {
         if (el.difficulty != 'hard') {
@@ -644,6 +642,25 @@ function gameDifficulty() {
     veryDifficulty(totalCards.brownCards);
     brownCards = arr;
   }
+  else if (config.difficulty == 'Normal') {
+    let arr = [];
+    greenCards.forEach(el => {
+      arr.push(el);
+    })
+    greenCards = arr;
+
+    arr = [];
+    blueCards.forEach(el => {
+      arr.push(el);
+    })
+    blueCards = arr;
+
+    arr = [];
+    brownCards.forEach(el => {
+      arr.push(el);
+    })
+    brownCards = arr;
+  }
 
   for (let i = greenCards.length; i > totalCards.greenCards; i--) {
     greenCards.splice(Math.floor(Math.random() * i), 1)
@@ -657,11 +674,6 @@ function gameDifficulty() {
 }
 
 function makePack() {
-  firstPack = [];
-  secondPack = [];
-  thirdPack = [];
-  pack = [];
-  
   packBuilderGreen(firstStage, firstPack);
   packBuilderBrown(firstStage, firstPack);
   packBuilderBlue(firstStage, firstPack);
@@ -729,3 +741,33 @@ function changeCard() {
 }
 
 cardSuit.addEventListener('click', changeCard)
+
+function startNewGame(){
+  cardContainer.classList.add('after-setting');
+  setting.classList.remove('after-setting');
+  card.src = '';
+  greenCards = greenCardsData;
+  blueCards = blueCardsData;
+  brownCards = brownCardsData;
+  firstPack = [];
+  secondPack = [];
+  thirdPack = [];
+  pack = [];
+  totalCards = {};
+  firstStage = {};
+  secondStage = {};
+  thirdStage = {};
+  config = {
+    boss: '',
+    difficulty: '',
+  }
+
+  bosses.forEach(el => {
+    el.classList.remove('active-item');
+  })
+  difficulties.forEach(el => {
+    el.classList.remove('active-item');
+  })
+}
+
+newGame.addEventListener('click', startNewGame);
