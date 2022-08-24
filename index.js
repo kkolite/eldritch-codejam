@@ -10,6 +10,11 @@ const card = document.querySelector('.card');
 const newGame = document.querySelector('.new-game');
 const bossDescription = document.querySelector('.boss-description');
 const bigDescription = document.querySelector('.big-description');
+const counterStage = document.querySelector('.counter-stage');
+const greenCounter = document.querySelector('.green-counter');
+const blueCounter = document.querySelector('.blue-counter');
+const brownCounter = document.querySelector('.brown-counter');
+const bossCard = document.querySelector('.boss-card');
 
 const greenCardsData = [
     {
@@ -475,13 +480,19 @@ difficultiesList.addEventListener('click', chooseDifficulty);
 bossList.addEventListener('click', chooseBoss)
 
 function startGame() {
-    setting.classList.add('after-setting');
-    cardContainer.classList.remove('after-setting');
-    gameBoss();
-    gameDifficulty();
-    makePack();
-    console.log(config);
-    console.log(pack);
+    if (config.boss == '' || config.difficulty == '') {
+      alert('Choose game config.')
+    }
+    else {
+      setting.classList.add('after-setting');
+      cardContainer.classList.remove('after-setting');
+      cardSuit.classList.remove('after-setting');
+      gameBoss();
+      gameDifficulty();
+      makePack();
+      console.log(config);
+      console.log(pack);
+    }
 }
 
 function gameBoss() {
@@ -491,6 +502,7 @@ function gameBoss() {
       firstStage = el.firstStage;
       secondStage = el.secondStage;
       thirdStage = el.thirdStage;
+      bossCard.src = `${el.cardFace}`;
     }
   })
 }
@@ -697,11 +709,10 @@ function makePack() {
   sort(firstPack);
   sort(secondPack);
   sort(thirdPack);
-
-  pack.push(thirdPack);
-  pack.push(secondPack);
+  
   pack.push(firstPack);
-  pack = pack.flat(1);
+  pack.push(secondPack);
+  pack.push(thirdPack);
 }
 
 function packBuilderGreen(stage, pack) {
@@ -738,14 +749,37 @@ function sort(array) {
 settingButton.addEventListener('click', startGame);
 
 function changeCard() {
-  if (pack.length > 1) {
-    card.src = `${pack[0].cardFace}`;
-    pack.splice(0, 1);
-  }
-  else {
-    card.src = `${pack[0].cardFace}`;
+  if (pack.length == 1 && pack[0].length == 1) {
+    card.src = `${pack[0][0].cardFace}`;
     cardSuit.classList.add('after-setting');
+    pack[0].splice(0, 1);
   }
+  else if (pack[0].length > 0) {
+    card.src = `${pack[0][0].cardFace}`;
+    pack[0].splice(0, 1);
+  }
+  else if (pack[0].length == 0 && pack.length > 1) {
+    pack.splice(0, 1);
+    changeCard();
+  }
+  
+  let blue = 0;
+  let brown = 0;
+  let green = 0
+  pack[0].forEach(el => {
+    if (el.color == 'green') {
+      green++
+    }
+    else if (el.color == 'brown') {
+      brown++
+    }
+    else {blue++}
+  })
+
+  greenCounter.textContent = `${green}`;
+  blueCounter.textContent = `${blue}`;
+  brownCounter.textContent = `${brown}`;
+  counterStage.textContent = `${Math.abs(pack.length - 4)}`;
 }
 
 cardSuit.addEventListener('click', changeCard)
@@ -770,6 +804,10 @@ function startNewGame(){
     boss: '',
     difficulty: '',
   }
+  counterStage.textContent = '';
+  greenCounter.textContent = '';
+  blueCounter.textContent = '';
+  brownCounter.textContent = '';
 
   bosses.forEach(el => {
     el.classList.remove('active-item');
@@ -780,10 +818,3 @@ function startNewGame(){
 }
 
 newGame.addEventListener('click', startNewGame);
-
-function bigBossDescription() {
-  bossDescription.classList.toggle('big-description');
-}
-
-bossDescription.addEventListener('click', bigBossDescription)
-

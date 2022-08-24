@@ -51,7 +51,6 @@ body {
 .big-description {
     scale: 2;
     z-index: 3;
-
 }
 
 .difficulties {
@@ -104,12 +103,65 @@ body {
 }
 
 .card-container {
-    position: absolute;
+    position: fixed;
     display: flex;
     margin: 0 auto;
-    top: 0;
+    top: 100px;
+    width: 100%;
+    justify-content: space-around;
+    align-items: flex-start;
 }
 
-.card {
-    left: 20px;
+.counter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+}
+
+.counter-text {
+    font-size: 20px;
+    color: aliceblue;
+}
+
+.counter {
+    display: flex;
+    justify-content: space-between;
+    width: 120px;
+}
+
+.counter-item {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.green-counter {
+    background-color: green;
+}
+
+.brown-counter {
+    background-color: brown;
+}
+
+.blue-counter {
+    background-color: blue;
+}
+
+.new-game {
+    margin-top: 20px;
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    color: aliceblue;
+    border-radius: 10px;
+    background-color: red;
+}
+
+.new-game:hover {
+    opacity: .8;
 }
